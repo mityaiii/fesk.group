@@ -26,6 +26,7 @@ class ProductModel(models.Model):
     description_ru = models.TextField(verbose_name="Описание продукта (ru)")
     description_kz = models.TextField(verbose_name="Описание продукта (kz)")
 
+    image = models.ImageField(upload_to='product_photos/', verbose_name='Фотография', null=True, blank=True)
     category = models.ManyToManyField(CategoryModel, verbose_name="Категории", blank=True)
 
     def __str__(self) -> str:

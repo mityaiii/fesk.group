@@ -50,14 +50,21 @@ class ProductView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         product_id = kwargs.get('pk')
         instance = ProductModel.objects.get(id=product_id)
 
-        serializer = ProductSerializer(instance)
+        excluded_fields  = None
+        if not('image' in request.data):
+            excluded_fields = ['image']
+
+        serializer = ProductSerializer(instance, excluded_fields=excluded_fields, partial=True)
 
         serializer_data = serializer.data
         serializer_data.update(request.data)
 
-        serializer = ProductSerializer(instance, data=serializer_data)
+        serializer = ProductSerializer(instance, data=serializer_data, excluded_fields=excluded_fields, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
