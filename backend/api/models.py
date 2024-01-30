@@ -26,7 +26,7 @@ class ProductModel(models.Model):
     description_ru = models.TextField(verbose_name="Описание продукта (ru)")
     description_kz = models.TextField(verbose_name="Описание продукта (kz)")
 
-    catogory = models.ManyToManyField(CategoryModel, verbose_name="Категории")
+    catogory = models.ManyToManyField(CategoryModel, verbose_name="Категории", blank=True)
 
     def __str__(self) -> str:
         return f'{self.title_ru} ({self.title_kz})'
