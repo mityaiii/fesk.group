@@ -1,5 +1,12 @@
 from rest_framework.serializers import ModelSerializer
-from .models import ProductModel, CategoryModel
+from .models import (
+    ProductModel, 
+    ProductCategoryModel,
+    BlogModel,
+    BlogCategoryModel,
+    FormModel,
+    FormProductsModel
+)
 
 
 class ProductSerializer(ModelSerializer):
@@ -16,8 +23,31 @@ class ProductSerializer(ModelSerializer):
                 self.fields.pop(field_name)
 
 
-class CategorySerializer(ModelSerializer):
+class ProductCategorySerializer(ModelSerializer):
     class Meta:
-        model = CategoryModel
+        model = ProductCategoryModel
         fields = "__all__"
         
+
+class BlogCategorySerializer(ModelSerializer):
+    class Meta:
+        model = BlogCategoryModel
+        fields = "__all__"
+
+
+class BlogSerializer(ModelSerializer):
+    class Meta:
+        model = BlogModel
+        fields = "__all__"
+
+
+class FormSerializer(ModelSerializer):
+    class Meta:
+        model = FormModel
+        fields = "__all__"
+
+
+class FormProductSerializer(ModelSerializer):
+    class Meta:
+        model = FormProductsModel
+        fields = "__all__"
