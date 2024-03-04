@@ -78,7 +78,7 @@ class BlogModel(models.Model):
         return f'{self.title_ru} ({self.title_kz})'
     
     class Meta:
-        verbose_name_plural = "Товары"
+        verbose_name_plural = "Блог"
 
 
 class FormProductsModel(models.Model):

@@ -11,8 +11,8 @@ urlpatterns = [
     path('blogs/<int:pk>/', views.BlogView.as_view(), name="blogs-by-id"),
     path('blog-categories/', views.BlogCategoryView.as_view(), name="blog-categories"),
     path('blog-categories/<int:pk>/', views.BlogCategoryView.as_view(), name="blog-categories-by-id"),
-    path('forms/', views.FormModel.as_view(), name="form"),
-    path('forms/<int:pk>/', views.FormModel.as_view(), name="form-by-id"),
+    path('forms/', views.FormView.as_view(), name="form"),
+    path('forms/<int:pk>/', views.FormView.as_view(), name="form-by-id"),
     path('form-products/', views.FormProductView.as_view(), name="form-product"),
     path('form-products/<int:pk>/', views.FormProductView.as_view(), name="form-product-by-id"),
 ]
