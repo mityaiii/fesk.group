@@ -41,13 +41,30 @@ class BlogSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class FormSerializer(ModelSerializer):
-    class Meta:
-        model = FormModel
-        fields = "__all__"
-
-
 class FormProductSerializer(ModelSerializer):
     class Meta:
         model = FormProductsModel
-        fields = "__all__"
+        fields = ['product_id', 'quantity']
+        
+
+class FormSerializer(ModelSerializer):
+    products = FormProductSerializer(many=True, required=False)
+
+    class Meta:
+        model = FormModel
+        fields = ['fio', 'telephon', 'email', 'message', 'products']
+
+    def get_products(self, instance):
+        return instance.formproductsmodel_set.all()
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['products'] = FormProductSerializer(self.get_products(instance), many=True).data
+        return data
+
+    def create(self, validated_data):
+        products_data = validated_data.pop('products')
+        form = FormModel.objects.create(**validated_data)
+        for product_data in products_data:
+            FormProductsModel.objects.create(form=form, **product_data)
+        return form

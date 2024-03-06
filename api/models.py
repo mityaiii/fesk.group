@@ -26,8 +26,8 @@ class ProductModel(models.Model):
     price_ru = models.FloatField(verbose_name="Цена (руб.)")
     price_kz = models.FloatField(verbose_name="Цена (тенге)")
 
-    description_ru = models.TextField(verbose_name="Описание продукта (ru)")
-    description_kz = models.TextField(verbose_name="Описание продукта (kz)")
+    description_ru = CKEditor5Field('Text', config_name='extends')
+    description_kz = CKEditor5Field('Text', config_name='extends')
 
     image = models.ImageField(upload_to='product_photos/', verbose_name='Фотография', null=True, blank=True)
     category = models.ManyToManyField(ProductCategoryModel, verbose_name="Категории", blank=True)
@@ -63,8 +63,8 @@ class BlogModel(models.Model):
     price_ru = models.FloatField(verbose_name="Цена (руб.)")
     price_kz = models.FloatField(verbose_name="Цена (тенге)")
 
-    description_ru = models.TextField(verbose_name="Короткое описание (ru)")
-    description_kz = models.TextField(verbose_name="Короткое описание (kz)")
+    description_ru = CKEditor5Field('Text', config_name='extends')
+    description_kz = CKEditor5Field('Text', config_name='extends')
 
     content_ru = CKEditor5Field('Text', config_name='extends')
     content_kz = CKEditor5Field('Text', config_name='extends')
@@ -81,14 +81,6 @@ class BlogModel(models.Model):
         verbose_name_plural = "Блог"
 
 
-class FormProductsModel(models.Model):
-    product_id = models.ForeignKey(ProductModel, verbose_name="id продкта", on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(verbose_name="Число")
-
-    class Meta:
-        verbose_name_plural = "Формы с продуктами"
-
-
 class FormModel(models.Model):
     max_length = 255
 
@@ -96,8 +88,15 @@ class FormModel(models.Model):
     telephon = models.CharField(verbose_name='Номер телефона', max_length=20)
     email = models.CharField(verbose_name='Почта', max_length=max_length)
     message = models.TextField(verbose_name='Сообщение', null=True, blank=True)
-    products = models.ForeignKey(FormProductsModel, verbose_name="Продукты", null=True, blank=True, on_delete=models.CASCADE)
-    # products = models.JSONField(default=dict)
-    
+
     class Meta:
         verbose_name_plural = "Формы"
+
+
+class FormProductsModel(models.Model):
+    product_id = models.ForeignKey(ProductModel, verbose_name="id продкта", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(verbose_name="Число")
+    form = models.ForeignKey(FormModel, verbose_name="id Корзины", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "Формы с продуктами"
