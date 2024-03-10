@@ -40,6 +40,14 @@ class BlogSerializer(ModelSerializer):
         model = BlogModel
         fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        excluded_fields = kwargs.pop('excluded_fields', None)
+        super(BlogSerializer, self).__init__(*args, **kwargs)
+
+        if excluded_fields:
+            for field_name in excluded_fields:
+                self.fields.pop(field_name)
+
 
 class FormProductSerializer(ModelSerializer):
     class Meta:

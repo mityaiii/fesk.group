@@ -63,12 +63,13 @@ class BlogModel(models.Model):
     price_ru = models.FloatField(verbose_name="Цена (руб.)")
     price_kz = models.FloatField(verbose_name="Цена (тенге)")
 
-    description_ru = CKEditor5Field('Text', config_name='extends')
-    description_kz = CKEditor5Field('Text', config_name='extends')
+    description_ru = models.TextField(verbose_name="Короткое описание (ru)")
+    description_kz = models.TextField(verbose_name="Короткое описание (kz)")
 
     content_ru = CKEditor5Field('Text', config_name='extends')
     content_kz = CKEditor5Field('Text', config_name='extends')
 
+    image = models.ImageField(upload_to='product_photos/', verbose_name='Фотография', null=True, blank=True)
     category = models.ManyToManyField(ProductCategoryModel, verbose_name="Категории", blank=True)
 
     is_public = models.BooleanField(verbose_name="Разместить")

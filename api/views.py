@@ -156,9 +156,9 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         title_query = self.request.query_params.get(title_param)
 
         if title_query:
-            return ProductModel.objects.filter(Q(**{f'{title_param}__icontains': title_query}))
+            return BlogModel.objects.filter(Q(**{f'{title_param}__icontains': title_query}))
 
-        return ProductModel.objects.all()
+        return BlogModel.objects.all()
     
     
     def get(self, request, *args, **kwargs):
@@ -179,19 +179,22 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         blog_id = kwargs.get('pk')
-        instance = BlogModel.objects.get(id=blog_id)
+        instance = ProductModel.objects.get(id=blog_id)
 
-        serializer = BlogSerializer(instance)
+        excluded_fields  = None
+        if not('image' in request.data):
+            excluded_fields = ['image']
+
+        serializer = BlogSerializer(instance, excluded_fields=excluded_fields, partial=True)
 
         serializer_data = serializer.data
         serializer_data.update(request.data)
 
-        serializer = BlogSerializer(instance, data=serializer_data)
+        serializer = BlogSerializer(instance, data=serializer_data, excluded_fields=excluded_fields, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
