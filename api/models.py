@@ -60,9 +60,6 @@ class BlogModel(models.Model):
     title_kz = models.CharField(max_length=max_length, verbose_name="Название (kz)")
     title_en = models.CharField(max_length=max_length, verbose_name="Название (en)")
 
-    price_ru = models.FloatField(verbose_name="Цена (руб.)")
-    price_kz = models.FloatField(verbose_name="Цена (тенге)")
-
     description_ru = models.TextField(verbose_name="Короткое описание (ru)")
     description_kz = models.TextField(verbose_name="Короткое описание (kz)")
 
