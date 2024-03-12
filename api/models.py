@@ -71,6 +71,7 @@ class BlogModel(models.Model):
 
     is_public = models.BooleanField(verbose_name="Разместить")
     date_modified = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
+    category = models.ManyToManyField(BlogCategoryModel, verbose_name="Категиории", blank=True)
 
     def __str__(self) -> str:
         return f'{self.title_ru} ({self.title_kz})'

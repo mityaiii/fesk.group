@@ -179,7 +179,7 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         blog_id = kwargs.get('pk')
-        instance = ProductModel.objects.get(id=blog_id)
+        instance = BlogModel.objects.get(id=blog_id)
 
         excluded_fields  = None
         if not('image' in request.data):
