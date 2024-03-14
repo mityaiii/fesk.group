@@ -30,16 +30,11 @@ class ProductView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         product_id = self.request.query_params.get('product_id')
 
         if product_id:
-            return ProductModel.objects.filter('product__id')
+            return ProductModel.objects.filter(id=product_id)
 
-        language = self.request.query_params.get('language', 'ru')
-        title_param = f'title_{language}'
-
-        title_query = self.request.query_params.get(title_param)
-
-        if title_query:
-            return ProductModel.objects.filter(Q(**{f'{title_param}__icontains': title_query}))
-
+        for param in self.request.query_params:
+            if 'title' in param:
+                return ProductModel.objects.filter(**{param: self.request.query_params.get(param)})
         return ProductModel.objects.all()
     
     
@@ -89,20 +84,16 @@ class CategoryView(CreateAPIView, RetrieveUpdateDestroyAPIView):
     serializer_class = ProductCategorySerializer
 
     def get_queryset(self):
-        category_id = self.request.query_params.get('category_id')
+        product_category_id = self.request.query_params.get('product_category_id')
 
-        if category_id:
-            return ProductCategoryModel.objects.filter(id=category_id)
+        if product_category_id:
+            return ProductCategoryModel.objects.filter(id=product_category_id)
 
-        language = self.request.query_params.get('language', 'ru')
-        title_param = f'title_{language}'
-
-        title_query = self.request.query_params.get(title_param)
-
-        if title_query:
-            return ProductCategoryModel.objects.filter(Q(**{f'{title_param}__icontains': title_query}))
-
+        for param in self.request.query_params:
+            if 'title' in param:
+                return ProductCategoryModel.objects.filter(**{param: self.request.query_params.get(param)})
         return ProductCategoryModel.objects.all()
+    
     
     def get(self, request, *args, **kwargs):
         if 'pk' in kwargs:
@@ -150,14 +141,9 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         if blog_id:
             return BlogModel.objects.filter(id=blog_id)
 
-        language = self.request.query_params.get('language', 'ru')
-        title_param = f'title_{language}'
-
-        title_query = self.request.query_params.get(title_param)
-
-        if title_query:
-            return BlogModel.objects.filter(Q(**{f'{title_param}__icontains': title_query}))
-
+        for param in self.request.query_params:
+            if 'title' in param:
+                return BlogModel.objects.filter(**{param: self.request.query_params.get(param)})
         return BlogModel.objects.all()
     
     
@@ -205,19 +191,14 @@ class BlogCategoryView(CreateAPIView, RetrieveUpdateDestroyAPIView):
     serializer_class = BlogCategorySerializer
 
     def get_queryset(self):
-        category_id = self.request.query_params.get('category_id')
+        blog_category_id = self.request.query_params.get('blog_category_id')
 
-        if category_id:
-            return BlogCategoryModel.objects.filter(id=category_id)
+        if blog_category_id:
+            return BlogCategoryModel.objects.filter(id=blog_category_id)
 
-        language = self.request.query_params.get('language', 'ru')
-        title_param = f'title_{language}'
-
-        title_query = self.request.query_params.get(title_param)
-
-        if title_query:
-            return BlogCategoryModel.objects.filter(Q(**{f'{title_param}__icontains': title_query}))
-
+        for param in self.request.query_params:
+            if 'title' in param:
+                return BlogCategoryModel.objects.filter(**{param: self.request.query_params.get(param)})
         return BlogCategoryModel.objects.all()
     
     def get(self, request, *args, **kwargs):
