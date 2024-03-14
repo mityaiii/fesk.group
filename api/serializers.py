@@ -71,8 +71,14 @@ class FormSerializer(ModelSerializer):
         return data
 
     def create(self, validated_data):
-        products_data = validated_data.pop('products')
-        form = FormModel.objects.create(**validated_data)
-        for product_data in products_data:
-            FormProductsModel.objects.create(form=form, **product_data)
-        return form
+        if 'product' in validated_data:
+            products_data = validated_data.pop('products')
+        
+            form = FormModel.objects.create(**validated_data)
+            for product_data in products_data:
+                FormProductsModel.objects.create(form=form, **product_data)
+
+            return form
+        
+        return FormModel.objects.create(**validated_data)
+        
