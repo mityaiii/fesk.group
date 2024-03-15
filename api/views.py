@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
 
 from .models import (
     ProductModel,
@@ -30,11 +29,11 @@ class ProductView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         product_id = self.request.query_params.get('product_id')
 
         if product_id:
-            return ProductModel.objects.filter(id=product_id)
+            return ProductModel.objects.filter(id=product_id).first()
 
         for param in self.request.query_params:
             if 'title' in param:
-                return ProductModel.objects.filter(**{param: self.request.query_params.get(param)})
+                return ProductModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
         return ProductModel.objects.all()
     
     
@@ -87,11 +86,11 @@ class CategoryView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         product_category_id = self.request.query_params.get('product_category_id')
 
         if product_category_id:
-            return ProductCategoryModel.objects.filter(id=product_category_id)
+            return ProductCategoryModel.objects.filter(id=product_category_id).first()
 
         for param in self.request.query_params:
             if 'title' in param:
-                return ProductCategoryModel.objects.filter(**{param: self.request.query_params.get(param)})
+                return ProductCategoryModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
         return ProductCategoryModel.objects.all()
     
     
@@ -136,14 +135,14 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
     serializer_class = BlogSerializer
 
     def get_queryset(self):
-        blog_id = self.request.query_params.get('blog_id')
+        blog_id = self.request.query_params.get('blog_id').first()
 
         if blog_id:
-            return BlogModel.objects.filter(id=blog_id)
+            return BlogModel.objects.filter(id=blog_id).first()
 
         for param in self.request.query_params:
             if 'title' in param:
-                return BlogModel.objects.filter(**{param: self.request.query_params.get(param)})
+                return BlogModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
         return BlogModel.objects.all()
     
     
@@ -194,11 +193,11 @@ class BlogCategoryView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         blog_category_id = self.request.query_params.get('blog_category_id')
 
         if blog_category_id:
-            return BlogCategoryModel.objects.filter(id=blog_category_id)
+            return BlogCategoryModel.objects.filter(id=blog_category_id).first()
 
         for param in self.request.query_params:
             if 'title' in param:
-                return BlogCategoryModel.objects.filter(**{param: self.request.query_params.get(param)})
+                return BlogCategoryModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
         return BlogCategoryModel.objects.all()
     
     def get(self, request, *args, **kwargs):
@@ -245,7 +244,7 @@ class FormView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         form_id = self.request.query_params.get('form_id')
 
         if form_id:
-            return FormModel.objects.filter(id=form_id)
+            return FormModel.objects.filter(id=form_id).first()
 
         return FormModel.objects.all()
     
@@ -293,7 +292,7 @@ class FormProductView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         form_id = self.request.query_params.get('form_id')
 
         if form_id:
-            return FormProductsModel.objects.filter(id=form_id)
+            return FormProductsModel.objects.filter(id=form_id).first()
 
         return FormProductsModel.objects.all()
     
