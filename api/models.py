@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Q
 from django_ckeditor_5.fields import CKEditor5Field
 
 
@@ -64,8 +63,8 @@ class BlogModel(models.Model):
     description_ru = models.TextField(verbose_name="Короткое описание (ru)")
     description_kz = models.TextField(verbose_name="Короткое описание (kz)")
 
-    content_ru = CKEditor5Field('Text', config_name='extends')
-    content_kz = CKEditor5Field('Text', config_name='extends')
+    content_ru = CKEditor5Field('Описание (рус.)', config_name='extends')
+    content_kz = CKEditor5Field('Описание (каз.)', config_name='extends')
 
     image = models.ImageField(upload_to='product_photos/', verbose_name='Фотография', null=True, blank=True)
     category = models.ManyToManyField(ProductCategoryModel, verbose_name="Категории", blank=True)
@@ -79,9 +78,10 @@ class BlogModel(models.Model):
     
     class Meta:
         verbose_name_plural = "Блог"
+        ordering = ['-date_modified'] 
 
 
-class FormModel(models.Model):
+class ProductFormModel(models.Model):
     max_length = 255
 
     fio = models.CharField(verbose_name='ФИО', max_length=max_length)
@@ -96,7 +96,19 @@ class FormModel(models.Model):
 class FormProductsModel(models.Model):
     product_id = models.ForeignKey(ProductModel, verbose_name="id продкта", on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name="Число")
-    form = models.ForeignKey(FormModel, verbose_name="id Корзины", on_delete=models.CASCADE)
+    form = models.ForeignKey(ProductFormModel, verbose_name="id Корзины", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Формы с продуктами"
+
+
+class ContactFormModel(models.Model):
+    max_length = 255
+
+    fio = models.CharField(verbose_name='ФИО', max_length=max_length)
+    telephon = models.CharField(verbose_name='Номер телефона', max_length=20)
+    email = models.CharField(verbose_name='Почта', max_length=max_length)
+    message = models.TextField(verbose_name='Сообщение', null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Контактная форма"

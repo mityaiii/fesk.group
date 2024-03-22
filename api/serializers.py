@@ -4,8 +4,9 @@ from .models import (
     ProductCategoryModel,
     BlogModel,
     BlogCategoryModel,
-    FormModel,
-    FormProductsModel
+    ProductFormModel,
+    FormProductsModel,
+    ContactFormModel,
 )
 
 
@@ -59,7 +60,7 @@ class FormSerializer(ModelSerializer):
     products = FormProductSerializer(many=True, required=False)
 
     class Meta:
-        model = FormModel
+        model = ProductFormModel
         fields = ['fio', 'telephon', 'email', 'message', 'products']
 
     def get_products(self, instance):
@@ -71,14 +72,19 @@ class FormSerializer(ModelSerializer):
         return data
 
     def create(self, validated_data):
-        if 'product' in validated_data:
+        if 'products' in validated_data:
             products_data = validated_data.pop('products')
         
-            form = FormModel.objects.create(**validated_data)
+            form = ProductFormModel.objects.create(**validated_data)
             for product_data in products_data:
                 FormProductsModel.objects.create(form=form, **product_data)
 
             return form
         
-        return FormModel.objects.create(**validated_data)
-        
+        return ProductFormModel.objects.create(**validated_data)
+
+
+class ContactFormSerializer(ModelSerializer):
+    class Meta:
+        model = ContactFormModel
+        fields = '__all__'

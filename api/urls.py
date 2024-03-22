@@ -15,4 +15,6 @@ urlpatterns = [
     path('forms/<int:pk>/', views.FormView.as_view(), name="form-by-id"),
     path('form-products/', views.FormProductView.as_view(), name="form-product"),
     path('form-products/<int:pk>/', views.FormProductView.as_view(), name="form-product-by-id"),
+    path('contact-forms/', views.ContactFormView.as_view(), name="contact-form"),
+    path('contact-forms/<int:pk>/', views.ContactFormView.as_view(), name="contact-form-by-id"),
 ]

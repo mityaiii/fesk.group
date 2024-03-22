@@ -4,8 +4,10 @@ from .models import (
     ProductCategoryModel,
     BlogModel,
     BlogCategoryModel,
-    FormModel,
-    FormProductsModel
+    ContactFormModel,
+    FormProductsModel,
+    ContactFormModel,
+    ProductFormModel
 )
 
 
@@ -13,5 +15,6 @@ admin.site.register(ProductModel)
 admin.site.register(ProductCategoryModel)
 admin.site.register(BlogModel)
 admin.site.register(BlogCategoryModel)
-admin.site.register(FormModel)
+admin.site.register(ContactFormModel)
 admin.site.register(FormProductsModel)
+admin.site.register(ProductFormModel)
