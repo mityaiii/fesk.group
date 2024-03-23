@@ -39,6 +39,12 @@ class ProductView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         for param in self.request.query_params:
             if 'title' in param:
                 return ProductModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
+            
+        category_id = self.request.query_params.get('category')
+        
+        if category_id:
+            return ProductModel.objects.filter(category__id=category_id)
+        
         return ProductModel.objects.all()
     
     
@@ -156,6 +162,15 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
 
         if blog_id:
             return BlogModel.objects.filter(id=blog_id).first()
+        
+        for param in self.request.query_params:
+            if 'title' in param:
+                return BlogModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
+
+        category_id = self.request.query_params.get('category')
+        
+        if category_id:
+            return BlogModel.objects.filter(category__id=category_id)
         
         return BlogModel.objects.all()
     
