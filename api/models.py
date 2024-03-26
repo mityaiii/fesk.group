@@ -2,6 +2,13 @@ from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 
 
+class ProductImageModel(models.Model):
+    image = models.ImageField(upload_to='product_photos/', verbose_name='Фотография', null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Фотографии товаров"
+
+
 class ProductCategoryModel(models.Model):
     max_length = 255
 
@@ -29,7 +36,8 @@ class ProductModel(models.Model):
     description_ru = CKEditor5Field('Text', config_name='extends')
     description_kz = CKEditor5Field('Text', config_name='extends')
 
-    image = models.ImageField(upload_to='product_photos/', verbose_name='Фотография', null=True, blank=True)
+    image = models.ManyToManyField(ProductImageModel, verbose_name="Фотографии продукта", null=True, blank=True)
+
     category = models.ManyToManyField(ProductCategoryModel, verbose_name="Категории", blank=True)
 
     def __str__(self) -> str:

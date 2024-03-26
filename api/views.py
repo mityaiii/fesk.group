@@ -35,10 +35,6 @@ class ProductView(CreateAPIView, RetrieveUpdateDestroyAPIView):
 
         if product_id:
             return ProductModel.objects.filter(id=product_id).first()
-
-        for param in self.request.query_params:
-            if 'title' in param:
-                return ProductModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
             
         category_id = self.request.query_params.get('category')
         
@@ -53,6 +49,11 @@ class ProductView(CreateAPIView, RetrieveUpdateDestroyAPIView):
             product = get_object_or_404(ProductModel, id=kwargs['pk'])
             serializer = self.get_serializer(product)
             return Response(serializer.data, status=status.HTTP_200_OK) 
+        
+        for param in self.request.query_params:
+            if 'title' in param:
+                product = ProductModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
+                return Response(product, status=status.HTTP_200_OK)
 
         queryset = self.get_queryset()
         page_size = self.request.query_params.get('page_size')
@@ -162,10 +163,6 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
 
         if blog_id:
             return BlogModel.objects.filter(id=blog_id).first()
-        
-        for param in self.request.query_params:
-            if 'title' in param:
-                return BlogModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
 
         category_id = self.request.query_params.get('category')
         
@@ -179,6 +176,11 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
             blog = get_object_or_404(BlogModel, id=kwargs['pk'])
             serializer = self.get_serializer(blog)
             return Response(serializer.data, status=status.HTTP_200_OK) 
+        
+        for param in self.request.query_params:
+            if 'title' in param:
+                blog = BlogModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
+                return Response(blog, status=status.HTTP_200_OK)
 
         queryset = self.filter_queryset(self.get_queryset())
 

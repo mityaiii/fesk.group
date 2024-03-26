@@ -7,11 +7,14 @@ from .models import (
     ContactFormModel,
     FormProductsModel,
     ContactFormModel,
-    ProductFormModel
+    ProductFormModel,
+    ProductImageModel
 )
 
 
+
 admin.site.register(ProductModel)
+admin.site.register(ProductImageModel)
 admin.site.register(ProductCategoryModel)
 admin.site.register(BlogModel)
 admin.site.register(BlogCategoryModel)

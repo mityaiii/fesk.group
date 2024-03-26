@@ -7,21 +7,40 @@ from .models import (
     ProductFormModel,
     FormProductsModel,
     ContactFormModel,
+    ProductImageModel
 )
+
+class ProductImageSerializer(ModelSerializer):
+    class Meta:
+        model = ProductImageModel
+        fields = '__all__'
 
 
 class ProductSerializer(ModelSerializer):
     class Meta:
         model = ProductModel
         fields = '__all__'
+    #     fields = ['title_ru', 'title_kz', 'title_en', 'price_ru', 'price_kz', 'description_ru', 'description_kz', 'image', 'category']
 
-    def __init__(self, *args, **kwargs):
-        excluded_fields = kwargs.pop('excluded_fields', None)
-        super(ProductSerializer, self).__init__(*args, **kwargs)
+    # def get_products(self, instance):
+    #     return instance.formproductsmodel_set.all()
+    
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+    #     data['products'] = ProductImageSerializer(self.get_products(instance), many=True).data
+    #     return data
 
-        if excluded_fields:
-            for field_name in excluded_fields:
-                self.fields.pop(field_name)
+    # def create(self, validated_data):
+    #     if 'image' in validated_data:
+    #         product_images = validated_data.pop('image')
+        
+    #         form = ProductModel.objects.create(**validated_data)
+    #         for product_data in product_images:
+    #             ProductImageModel.objects.create(form=form, **product_data)
+
+    #         return form
+        
+    #     return ProductFormModel.objects.create(**validated_data)
 
 
 class ProductCategorySerializer(ModelSerializer):
