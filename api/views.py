@@ -53,6 +53,7 @@ class ProductView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         for param in self.request.query_params:
             if 'title' in param:
                 product = ProductModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
+                serializer = self.get_serializer(product)
                 return Response(product, status=status.HTTP_200_OK)
 
         queryset = self.get_queryset()
@@ -180,7 +181,8 @@ class BlogView(CreateAPIView, RetrieveUpdateDestroyAPIView):
         for param in self.request.query_params:
             if 'title' in param:
                 blog = BlogModel.objects.filter(**{param: self.request.query_params.get(param)}).first()
-                return Response(blog, status=status.HTTP_200_OK)
+                serializer = self.get_serializer(blog)
+                return Response(serializer.data, status=status.HTTP_200_OK)
 
         queryset = self.filter_queryset(self.get_queryset())
 
